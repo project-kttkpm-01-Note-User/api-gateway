@@ -1,0 +1,25 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**
+        - id: NOTE-SERVICE
+          uri: lb://note-service
+          predicates:
+            - Path=/notes/**
+
+  config:
+    import: "optional:configserver:"
+    cloud:
+      config:
+        name: config-server
+        uri: http://localhost:8888
