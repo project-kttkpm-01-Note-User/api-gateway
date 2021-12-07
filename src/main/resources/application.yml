@@ -4,9 +4,21 @@ server:
 spring:
   application:
     name: API-GATEWAY
+  config:
+    import: 'optional:configserver:'
 
   cloud:
+    config:
+      name: config-server
+      uri: http://localhost:8888
+
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
         - id: user-service
           uri: lb://user-service
@@ -16,10 +28,3 @@ spring:
           uri: lb://note-service
           predicates:
             - Path=/**
-
-  config:
-    import: "optional:configserver:"
-    cloud:
-      config:
-        name: config-server
-        uri: http://localhost:8888
