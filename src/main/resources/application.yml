@@ -4,9 +4,13 @@ server:
 spring:
   application:
     name: API-GATEWAY
+  config:
+    import: "optional:configserver:"
+
   cloud:
     config:
-      enabled: false
+      name: config-server
+      uri: http://localhost:8888
 
     gateway:
       default-filters:
@@ -26,12 +30,3 @@ spring:
           uri: lb://NOTE-SERVICE
           predicates:
             - Path=/**
-
-eureka:
-  client:
-    register-with-eureka:
-      value: true
-    fetch-registry:
-      value: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
